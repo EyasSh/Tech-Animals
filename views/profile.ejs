@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>My Profile</title>
+        <!-- Link to external stylesheet -->
+        <link rel="stylesheet" href="/profile.css">
+    </head>
+    <body>
+        
+        <div class="main">
+            <div class="outer" style="background-image: url('<%= bannerPic %>');">
+                
+                    <div class="inner">
+                        <img  class="picture-profile" src="<%= profilePic %>" />
+                    </div>
+            </div>
+            <h1 class="title"><%=titleAndParags[0] %></h1>
+            <div class="Info-Container">
+                <div class="info">
+                        <p>
+                            <%-titleAndParags[1]%>
+                        </p>
+                        <p>
+                            <%-titleAndParags[2]%>
+                        </p>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>
