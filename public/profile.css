@@ -86,14 +86,23 @@
     }
     
     .info-content{
-        padding-left:5%;
-        padding-right:5%;
+        padding-left:0%;
+        padding-right:0%;
         padding-top: 2%;
         padding-bottom: 2%;
         display: flex;
         flex-direction: row;
-        width: fit-content;
-    
+        justify-content: space-between;
+        text-wrap: balance;
+        text-overflow: unset;
+    }
+    div.info-content p:nth-child(odd) {
+        flex:1;
+        
+    }
+    div.info-content p:nth-child(even) {
+        flex:2;
+        margin-left: 30%;
     }
     .real-name{
         margin-right: 157px;

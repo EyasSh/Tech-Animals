@@ -18,7 +18,16 @@ app.get('/profile',(req,res)=>{
     const profilePic=`./${id}/profile.png`
     const bannerPic =`./${id}/banner.png`
     const titleAndParags = getTitle(id)
-    res.render('profile.ejs', { id, profilePic, bannerPic,titleAndParags });
+    const bioArray=getBioTextArranged(id)
+    const image1=getImageByIdAndNumber(id,1)
+    res.render('profile.ejs', 
+    { id, 
+      profilePic, 
+      bannerPic,
+      titleAndParags,
+      bioArray,
+      image1 
+    });
 })
 function getTitle(id){
     const titlePath= `./private/${id}/title.txt`
@@ -36,18 +45,40 @@ function getTitle(id){
     const content=[]
     //title being pushed inside the array
     content.push(lines[0])
-    //regex that splits the first sentence in line 2 from the second without changing any content
-    const regex = /\. (?=<(?:a href[^>]+>))/;
+    let sentences=''
+    if(id=='mickey'){
+        //regex that splits the first sentence in line 2 from the second without changing any content
+        const regex = /\. (?=<(?:a href[^>]+>))/;
 
-     // Split the text using the regular expression
-    const sentences = lines[1].split(regex)
-    console.log(sentences)
-
+        // Split the text using the regular expression
+        sentences = lines[1].split(regex)
+    }
+    else{
+        sentences=lines[1].split('.')
+    }
+    
     content.push(sentences[0])
     content.push(sentences[1])
 
     return content
 
+}
+function getBioTextArranged(id){
+    const path= `./private/${id}/bio.txt`
+    const unArrangedText = fs.readFileSync(path,'utf-8')
+    const lines = unArrangedText.split("\n")
+    for (let i = 0; i < lines.length; i++) {
+        const splitIndex = lines[i].indexOf(':');
+        if (splitIndex !== -1) { // Ensure the colon exists in the line
+            const firstPart = lines[i].substring(0, splitIndex).trim();
+            const secondPart = lines[i].substring(splitIndex + 1).trim();
+            lines[i] = `<div class='info-content'><p>${firstPart}</p><p class='bio-content'>${secondPart}</p></div>`;
+        } 
+    }
+    return lines
+}
+function getImageByIdAndNumber(id,imageNum){
+    return `.//${id}/image${imageNum}.png`
 }
 
 let port = 3000
