@@ -20,13 +20,18 @@ app.get('/profile',(req,res)=>{
     const titleAndParags = getTitle(id)
     const bioArray=getBioTextArranged(id)
     const image1=getImageByIdAndNumber(id,1)
+    const image2 = getImageByIdAndNumber(id,2) 
+    const textFilesJaggedArr=getEndTextFileContentArray(id)
     res.render('profile.ejs', 
-    { id, 
+    { 
+      id, 
       profilePic, 
       bannerPic,
       titleAndParags,
       bioArray,
-      image1 
+      image1,
+      image2,
+      textFilesJaggedArr 
     });
 })
 function getTitle(id){
@@ -77,8 +82,51 @@ function getBioTextArranged(id){
     }
     return lines
 }
+
 function getImageByIdAndNumber(id,imageNum){
-    return `.//${id}/image${imageNum}.png`
+    if(imageNum>2)
+    {
+        return undefined;
+    }
+    return `./${id}/image${imageNum}.png`
+}
+function getEndTextFileContentArray(id){
+    
+   
+    const fileArray = [];
+    const files = fs.readdirSync(`./private/${id}`);
+
+    files.filter(file => {
+        if (file.includes('text')) {
+            fileArray.push(file);
+        }
+    });
+
+    
+    for(let i=0; i<files.length;i++){
+        fileArray[i] = getEndorsement(id,files[i])
+    }
+    return fileArray
+}
+function getEndorsement(id,textName){
+    let TextArray=[]
+    if(typeof textName!== "string"){
+        return undefined
+    }
+    else{
+        if(id=='teddy'){
+            let path = `./private/teddy/${textName}`
+            const textFile= fs.readFileSync(path,'utf-8')
+            TextArray = textFile.split("\n")
+            return TextArray
+        }
+        else{
+            let path= `./private/${id}/${textName}`
+            const textFile = fs.readFileSync(path,'utf-8')
+            TextArray = textFile.split("\n")
+            return TextArray
+        }
+    }
 }
 
 let port = 3000

@@ -146,21 +146,21 @@
 
     /* Styles for endorsement section */
     h2{
-        font-size: 2.5vw;
+        font-size: 2.5em;
         font-family: One Rammetto, Cursive, sans-serif;
         padding-top: 10px;
+        padding-right: 25vw;
         text-shadow: 3px 3px 3px #999999;
         border-radius: 1px;
-        display: block;
-        text-align: center;
+        margin-left: 25%;
     }
     .endorsement-container{
-        background-image: url(clouds.webp);
+        background-image: url("clouds.webp");
         background-repeat: repeat;
         display: flex;
         flex-direction: row-reverse;
-        justify-content: center;
-        align-items: center;
+         justify-content: center;
+        align-items: center; 
     }
     .endorsement{
         
@@ -168,6 +168,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+       
     }
     .endorsement-content{
         background-color: #ffffff; 
