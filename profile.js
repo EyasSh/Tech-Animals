@@ -1,4 +1,7 @@
 /**
+ * 
+	Mohammad Azaizi 323951988
+	Bashar Helo  
  * @param express imports the express module for it to be used in the server
  * @param app the app is an express server which will have endpoints that get the HTML pages
  * @param ejs embedded js dependency for node and page rendering
@@ -12,7 +15,10 @@ app.set('view engine',ejs)
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static('public'))
 
-
+/**
+ * @param req an HTTP request with a query of the animal ID
+ * @returns res HTTP response which renders the ejs profile according to the ID
+ */
 app.get('/profile',(req,res)=>{
     let id= req.query.id.toLowerCase();
     const profilePic=`./${id}/profile.png`
@@ -22,6 +28,7 @@ app.get('/profile',(req,res)=>{
     const image1=getImageByIdAndNumber(id,1)
     const image2 = getImageByIdAndNumber(id,2) 
     const textFilesJaggedArr=getEndTextFileContentArray(id)
+    const teamImages=getDebuggersProfImgs(id)
     res.render('profile.ejs', 
     { 
       id, 
@@ -31,9 +38,15 @@ app.get('/profile',(req,res)=>{
       bioArray,
       image1,
       image2,
-      textFilesJaggedArr 
+      textFilesJaggedArr ,
+      teamImages
     });
 })
+/**
+ * 
+ * @param  id the id of the animal in the /profile query 
+ * @returns content which is an array of the title and the paragraphs below it
+ */
 function getTitle(id){
     const titlePath= `./private/${id}/title.txt`
     const titleText= fs.readFileSync(titlePath,"utf-8")
@@ -68,6 +81,11 @@ function getTitle(id){
     return content
 
 }
+/**
+ * 
+ * @param  {*Animal Name} id
+ * @returns {*lines} an array of formatted bio parts
+ */
 function getBioTextArranged(id){
     const path= `./private/${id}/bio.txt`
     const unArrangedText = fs.readFileSync(path,'utf-8')
@@ -127,6 +145,28 @@ function getEndorsement(id,textName){
             return TextArray
         }
     }
+}
+function getDebuggersProfImgs(id){
+    const Images=[]
+    const contents = fs.readdirSync("./public");
+
+    // Filter out directories
+    const subdirectories = contents.filter(item => {
+        // Check if the item is a directory
+        return fs.statSync(`./public/${item}`).isDirectory();
+    });
+
+    for(let i =0; i<subdirectories.length;i++){
+        if(subdirectories[i].toLowerCase()!=id.toLowerCase()){
+            Images.push(
+                `<a href="http://localhost:3000/profile?id=${subdirectories[i]}">
+                    <img class="friend" src="./${subdirectories[i]}/profile.png" alt="Profile Image">
+                </a>`
+                )
+        }
+    }
+    return Images
+    
 }
 
 let port = 3000

@@ -55,6 +55,14 @@
                     <img class="content-pic" src="<%=image2 %>" alt="error">
                 </div>
             </div>
+            <div class="friends-container">
+                <h2>Meet the whole debugging squad</h2>
+                <div class="friends-pics">
+                    <% teamImages.forEach(image => { %>
+                        <%- image %>
+                    <% }) %>
+                </div>
+            </div>
 
     </div>
     </body>

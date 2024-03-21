@@ -188,13 +188,17 @@
     
     /* Styles for the friends section */
     .friends-pics{
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
     }
     .friend{
-        width: 200px;
-        height: 300px;
         padding: 10px;
+        flex: 1 1 auto; /* Allow images to grow and shrink */
+        max-width: 300px; /* Set a maximum width */
+        height: auto; /* Automatically adjust height based on aspect ratio */
+        object-fit: cover; /* Ensure images cover the entire container */
+        margin: 10px; /* Adjust margin as needed */
     
     }
     .college{
