@@ -132,18 +132,13 @@ function getEndorsement(id,textName){
         return undefined
     }
     else{
-        if(id=='teddy'){
-            let path = `./private/teddy/${textName}`
-            const textFile= fs.readFileSync(path,'utf-8')
-            TextArray = textFile.split("\n")
-            return TextArray
-        }
-        else{
+       
+       
             let path= `./private/${id}/${textName}`
             const textFile = fs.readFileSync(path,'utf-8')
             TextArray = textFile.split("\n")
             return TextArray
-        }
+        
     }
 }
 function getDebuggersProfImgs(id){
